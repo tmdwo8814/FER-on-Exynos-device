@@ -25,13 +25,13 @@ transforms = {
     ])
 }
 
-data_dir = './dataset'
+data_dir = 'C:/Users/SJ/Documents/FER-on-Exynos-device/FER/dataset'
 
-train_set = datasets.ImageFolder(os.path.join(data_dir, 'train'),
+train_set = datasets.ImageFolder(data_dir + '/train',
                             transforms['train'])
 train_loader = torch.utils.data.DataLoader(train_set, batch_size = 8, shuffle=True)
 
-test_set = datasets.ImageFolder(os.path.join(data_dir, 'test'),
+test_set = datasets.ImageFolder(data_dir + '/test',
                                 transforms['test'])
 test_loader = torch.utils.data.DataLoader(test_set, batch_size = 8, shuffle=False)
 
