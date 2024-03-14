@@ -44,7 +44,6 @@ print(f'{device} is available!')
 
 # load model & set param
 model = resnet50().to(device)
-print(model)
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=1e-3, momentum=0.9)
@@ -79,7 +78,9 @@ Model_PATH = './resnet50.pt'
 torch.save(model.state_dict(), Model_PATH)
 
 
-# testing
+# predict
+print('start predict!!!')
+
 model = resnet50().to(device)
 model.load_state_dict(torch.load(Model_PATH))
 
@@ -87,7 +88,7 @@ correct = 0
 total = 0
 
 with torch.no_grad(): 
-  for data in test_loader:
+  for data in tqdm(test_loader):
     images, labels = data[0].to(device), data[1].to(device)
     outputs = model(images)
     _, predicted = torch.max(outputs.data, 1) 
