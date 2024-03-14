@@ -11,8 +11,10 @@ import matplotlib.pyplot as plt
 from models import resnet50
 
 import os
+from tqdm import tqdm
 
 
+# Data struct
 transforms = {
     'train' : transforms.Compose([
         transforms.RandomHorizontalFlip(),
@@ -39,3 +41,57 @@ test_loader = torch.utils.data.DataLoader(test_set, batch_size = 8, shuffle=Fals
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 print(f'{device} is available!')
 
+
+# load model & set param
+model = resnet50().to(device)
+print(model)
+
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(model.parameters(), lr=1e-3, momentum=0.9)
+
+loss_ = []
+batch_num = len(train_loader)
+
+
+# training
+print('start training!!!')
+
+for epoch in range(10):
+    running_loss = 0.0
+
+    for i, data in enumerate(tqdm(train_loader)):
+        input, labels = data[0].to(device), data[1].to(device)
+
+        optimizer.zero_grad()
+
+        outputs = model(input)
+        loss = criterion(outputs, labels)
+
+        loss.backward()
+        optimizer.step()
+
+        running_loss += loss.item()
+    loss_.append(running_loss / batch_num)
+    print('[%d] loss: %.3f' %(epoch + 1, running_loss / len(train_loader)))
+
+
+Model_PATH = './resnet50.pt'
+torch.save(model.state_dict(), Model_PATH)
+
+
+# testing
+model = resnet50().to(device)
+model.load_state_dict(torch.load(Model_PATH))
+
+correct = 0
+total = 0
+
+with torch.no_grad(): 
+  for data in test_loader:
+    images, labels = data[0].to(device), data[1].to(device)
+    outputs = model(images)
+    _, predicted = torch.max(outputs.data, 1) 
+    total += labels.size(0) 
+    correct += (predicted == labels).sum().item() 
+
+print(f'accuracy of 10000 test images: {100*correct/total}%')
