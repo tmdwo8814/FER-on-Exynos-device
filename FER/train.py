@@ -8,7 +8,8 @@ import torch.nn.functional as F
 import torch.optim as optim
 import matplotlib.pyplot as plt
 
-from models import resnet50
+# from models import resnet50
+from Custom_CNN import cnn
 
 import os
 from tqdm import tqdm
@@ -43,7 +44,8 @@ print(f'{device} is available!')
 
 
 # load model & set param
-model = resnet50().to(device)
+# model = resnet50().to(device)
+model = cnn().to(device)
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=1e-3, momentum=0.9)
