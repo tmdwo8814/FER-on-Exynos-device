@@ -1,0 +1,12 @@
+custom_cnn
+
+1.
+epoch:20
+test accuracy : 54.9
+
+-----------------------
+
+resnet50
+
+1. epoch:20
+test accuracy : 44.8
