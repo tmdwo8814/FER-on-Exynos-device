@@ -44,7 +44,6 @@ print(f'{device} is available!')
 
 
 # load model & set param
-# model = resnet50().to(device)
 model = resnet50().to(device)
 
 criterion = nn.CrossEntropyLoss()

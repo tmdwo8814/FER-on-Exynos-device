@@ -5,8 +5,16 @@ epoch:20
 test accuracy : 54.9
 
 -----------------------
+resnet50 - pretrained x
 
-resnet50
-
-1. epoch:20
+1. 
+epoch:20
 test accuracy : 44.8
+
+-----------------------
+resnet50 - pretrained o
+
+1. 
+epoch : 20
+test accuracy : 50.0
+last epoch loss : 0.43
