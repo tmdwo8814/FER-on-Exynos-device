@@ -1,20 +1,18 @@
-custom_cnn
+training
 
-1.
-epoch:20
-test accuracy : 54.9
-
------------------------
-resnet50 - pretrained x
-
-1. 
-epoch:20
-test accuracy : 44.8
-
------------------------
-resnet50 - pretrained o
-
-1. 
+model : resnet50-pretrained(pytorch)
 epoch : 20
-test accuracy : 50.0
+test accuracy : 60.31
 last epoch loss : 0.43
+
+
+evaluation
+
+1. No quantized
+accuracy of 10000 test images: 60.31%
+time cost(average 10 tests) : 9.3~9.5 s
+
+2. PTSQ
+accuracy of 10000 test images: 60.31%
+time cost(avg 10 tests) : 7.9~8.0 s
+

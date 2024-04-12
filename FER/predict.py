@@ -31,14 +31,27 @@ model.load_state_dict(torch.load(weights_path))
 correct = 0
 total = 0
 
+# measure inference time -- better than time.time()
+starter = torch.cuda.Event(enable_timing=True)
+ender = torch.cuda.Event(enable_timing=True)
+
+model.eval()
+
 print('start predict!!!')
 
-with torch.no_grad(): 
+with torch.no_grad():  
+  starter.record()
   for data in tqdm(test_loader):
     images, labels = data[0].to(device), data[1].to(device)
     outputs = model(images)
     _, predicted = torch.max(outputs.data, 1) 
     total += labels.size(0) 
     correct += (predicted == labels).sum().item() 
+  ender.record()
+
+torch.cuda.synchronize()
+
+infer_time = starter.elapsed_time(ender)
 
 print(f'accuracy of 10000 test images: {100*correct/total}%')
+print(f'time cost : {infer_time/1000} s')
